@@ -8,6 +8,4 @@ services:
       - HEADLESS=True
       - FULL_AUTO_MODE=True
       - SUBMIT_FORMS=False
-    volumes:
-      - .:/app
     restart: unless-stopped
