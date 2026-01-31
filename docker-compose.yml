@@ -1,12 +1,13 @@
 services:
   flat-apply:
-    build: .
+    build: ghcr.io/eisimo/flat-apply:latest
+    container_name: flat-apply-app
     env_file:
       - .env
     environment:
       - HEADLESS=True
-      - FULL_AUTO_MODE=True
-      - SUBMIT_FORMS=True
+      - FULL_AUTO_MODE=False
+      - SUBMIT_FORMS=False
     volumes:
       - .:/app
     restart: unless-stopped

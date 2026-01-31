@@ -11,9 +11,9 @@ BROWSER_HEIGHT: int = 800
 BROWSER_LOCALE: str = "de-DE"
 POST_SUBMISSION_SLEEP_MS: int = 0
 
-FULL_AUTO_MODE: bool = False
-SUBMIT_FORMS: bool = False
-HEADLESS: bool = True
+FULL_AUTO_MODE: bool = getenv("FULL_AUTO_MODE", "False").lower() in ("true", "1")
+SUBMIT_FORMS: bool = getenv("SUBMIT_FORMS", "False").lower() in ("true", "1")
+HEADLESS: bool = getenv("HEADLESS", "False").lower() in ("true", "1")
 
 # personal information
 SALUTATION: str = "Herr"
