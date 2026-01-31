@@ -33,7 +33,7 @@ class FlatApplier:
         messages = self.telegram.check_messages()
         logging.info(f"found {len(messages)} new messages")
         for number, message in enumerate(messages, 1):
-            message_text_preview = str_to_preview(message.get('text', ''), 15)
+            message_text_preview = str_to_preview(message.get('text', ''), 30)
             logging.info(f"{str(number).rjust(2)}: {message_text_preview}")
             url = self.get_apply_url_from_message(message)
             if not url:
