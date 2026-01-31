@@ -28,7 +28,7 @@ class FlatApplier:
     def __init__(self):
         self.telegram = Telegram()
 
-    def cycle(self):
+    def scan_and_apply(self):
         logging.info("checking for new messages")
         messages = self.telegram.check_messages()
         logging.info(f"found {len(messages)} new messages")
@@ -57,7 +57,7 @@ class FlatApplier:
                     feedback = ApplicationResult(False, f"Script Error:\n{e}")
 
             logger.info(f"\tformulating response message")
-            response_text = feedback.to_message()
+            response_text = str(feedback)
             logger.info(f"\tsending response message")
             self.telegram.send_message(response_text)
 
@@ -84,4 +84,4 @@ class FlatApplier:
 if __name__ == "__main__":
     flat_applier = FlatApplier()
     while True:
-        flat_applier.cycle()
+        flat_applier.scan_and_apply()

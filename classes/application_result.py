@@ -13,7 +13,7 @@ class ApplicationResult:
             string += _("application_failed")
 
         if self.message:
-            string += "\n\n"
+            string += "\n"
             string += self.message
         return string
 
@@ -28,14 +28,3 @@ class ApplicationResult:
             string += ": "
             string += self.message
         return string
-
-    def to_message(self):
-        msg = ""
-        if self.success:
-            msg += "Erfolgreich beworben."
-        else:
-            msg += "Nicht erfolgreich beworben."
-        if self.message:
-            msg += "\n\n"
-            msg += self.message
-        return msg
