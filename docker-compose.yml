@@ -1,0 +1,12 @@
+services:
+  flat-apply:
+    build: .
+    env_file:
+      - .env
+    environment:
+      - HEADLESS=True
+      - FULL_AUTO_MODE=True
+      - SUBMIT_FORMS=True
+    volumes:
+      - .:/app
+    restart: unless-stopped

@@ -1,0 +1,1 @@
+TRANSLATIONS_FILE = "translations.toml"

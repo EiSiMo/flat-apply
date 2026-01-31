@@ -1,0 +1,31 @@
+[application_success]
+en = "Successfully applied."
+de = "Erfolgreich beworben."
+
+[application_failed]
+en = "Unsuccessful application."
+de = "Nicht erfolgreich beworben."
+
+[application_success_dry]
+en = "Dryrun. No form submitted."
+de = "Trockenlauf. Formular nicht abgeschickt."
+
+[submit_conformation_msg_not_found]
+en = "Submission conformation message not found."
+de = "Bestätigungsnachricht nicht gefunden."
+
+[ad_offline]
+en = "Ad offline."
+de = "Inserat offline."
+
+[ad_deactivated]
+en = "Ad deactivated."
+de = "Inserat deaktiviert."
+
+[unsupported_association]
+en = "This domain is not a supported housing association."
+de = "Diese Domain ist keine unterstützte Wohnungsbaugesellschaft"
+
+[todo_association]
+en = "Support for this housing association is not implemented yet."
+de = "Diese Wohnungsbaugesellschaft wurde noch nicht implementiert."

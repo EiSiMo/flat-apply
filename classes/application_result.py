@@ -1,0 +1,41 @@
+from language import _
+
+class ApplicationResult:
+    def __init__(self, success: bool, message: str=""):
+        self.success = success
+        self.message = message
+
+    def __str__(self):
+        string = ""
+        if self.success:
+            string += _("application_success")
+        else:
+            string += _("application_failed")
+
+        if self.message:
+            string += "\n\n"
+            string += self.message
+        return string
+
+    def __repr__(self):
+        string = ""
+        if self.success:
+            string += "success"
+        else:
+            string += "failed"
+
+        if self.message:
+            string += ": "
+            string += self.message
+        return string
+
+    def to_message(self):
+        msg = ""
+        if self.success:
+            msg += "Erfolgreich beworben."
+        else:
+            msg += "Nicht erfolgreich beworben."
+        if self.message:
+            msg += "\n\n"
+            msg += self.message
+        return msg
