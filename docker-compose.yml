@@ -1,7 +1,7 @@
 services:
   flat-apply:
     image: ghcr.io/eisimo/flat-apply:latest
-    container_name: flat-apply-app
+    container_name: flat-apply
     env_file:
       - .env
     environment:
