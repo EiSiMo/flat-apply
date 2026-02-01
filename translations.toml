@@ -29,3 +29,15 @@ de = "Diese Domain ist keine unterstützte Wohnungsbaugesellschaft"
 [todo_association]
 en = "Support for this housing association is not implemented yet."
 de = "Diese Wohnungsbaugesellschaft wurde noch nicht implementiert."
+
+[senior_flat]
+en = "This flat is only for elderly people."
+de = "Dies ist eine Seniorenwohnung."
+
+[special_need_wbs_flat]
+en = "This flat is only for people with a special needs WBS."
+de = "Diese Wohnung ist nur für Menschen mit einem besonderen Wohnbedarf."
+
+[missing_fields]
+en = "Required fields have not been filled."
+de = "Pflichtfelder wurden nicht ausgefüllt."
