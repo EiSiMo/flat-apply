@@ -36,6 +36,8 @@ IS_POSSESSING_WBS: bool = True
 WBS_TYPE: str = "180"
 WBS_VALID_TILL: dt = dt(2026, 12, 1)
 WBS_ROOMS: int = 2
+WBS_ADULTS: int = 2
+WBS_CHILDREN: int = 0
 IS_PRIO_WBS: bool = False
 
 # applying for another person
