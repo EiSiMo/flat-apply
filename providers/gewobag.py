@@ -22,7 +22,16 @@ class Gewobag(Provider):
             else:
                 logger.debug("\t\tno cookie accept button found")
 
-            logger.info("\tSTEP 2: check if ad is still open")
+            logger.info("\tSTEP 2: check if the page was not found")
+            if await page.get_by_text("Mietangebot nicht gefunden").first.is_visible():
+                logger.debug("\t\t'page not found' message found")
+                return ApplicationResult(
+                    success=False,
+                    message=_("not_found"))
+            logger.debug("\t\t'page not found' message not found")
+
+
+            logger.info("\tSTEP 3: check if ad is still open")
             if await page.locator('#immo-mediation-notice').is_visible():
                 logger.debug("\t\tad closed notice found - returning")
                 return ApplicationResult(
@@ -30,25 +39,25 @@ class Gewobag(Provider):
                     message=_("ad_deactivated"))
             logger.debug("\t\tno ad closed notice found")
 
-            logger.info("\tSTEP 3: go to the application form")
+            logger.info("\tSTEP 4: go to the application form")
             await page.get_by_role("button", name="Anfrage senden").first.click()
 
-            logger.info("\tSTEP 4: check if the flat is for seniors only")
+            logger.info("\tSTEP 5: check if the flat is for seniors only")
             if await self.is_senior_flat(page):
                 logger.debug("\t\tflat is for seniors only - returning")
                 return ApplicationResult(False, _("senior_flat"))
             logger.debug("\t\tflat is not seniors only")
 
-            logger.info("\tSTEP 5: check if the flat is for special needs wbs only")
+            logger.info("\tSTEP 6: check if the flat is for special needs wbs only")
             if await self.is_special_needs_wbs(page):
                 logger.debug("\t\tflat is for special needs wbs only - returning")
                 return ApplicationResult(False, _("special_need_wbs_flat"))
             logger.debug("\t\tflat is not for special needs wbs only")
 
-            logger.info("\tSTEP 6: find the form iframe")
+            logger.info("\tSTEP 7: find the form iframe")
             form_iframe = page.frame_locator("#contact-iframe")
 
-            logger.info("\tSTEP 7: define helper functions")
+            logger.info("\tSTEP 8: define helper functions")
             async def fill_field(locator, filling):
                 logger.debug(f"\t\tfill_field('{locator}', '{filling}')")
                 field = form_iframe.locator(locator)
@@ -88,7 +97,7 @@ class Gewobag(Provider):
                     logger.debug(f"\t\t\tfield was not found")
 
 
-            logger.info("\tSTEP 8: fill the form")
+            logger.info("\tSTEP 9: fill the form")
             await select_field("#salutation-dropdown", SALUTATION)
             await fill_field("#firstName", FIRSTNAME)
             await fill_field("#lastName", LASTNAME)
@@ -110,14 +119,14 @@ class Gewobag(Provider):
             await check_checkbox("input[id*='datenschutzhinweis']")
             await upload_files("el-application-form-document-upload", ["DummyPDF.pdf"])
 
-            logger.info("\tSTEP 9: submit the form")
+            logger.info("\tSTEP 10: submit the form")
             if not SUBMIT_FORMS:
                 logger.debug(f"\t\tdry run - not submitting")
                 return ApplicationResult(True, _("application_success_dry"))
             await form_iframe.get_by_role("button", name="Anfrage versenden").click()
             await page.wait_for_timeout(5000)
 
-            logger.info("\tSTEP 10: check the success")
+            logger.info("\tSTEP 11: check the success")
             if page.url.startswith("https://www.gewobag.de/daten-uebermittelt/"):
                 logger.info(f"\t\tsuccess detected by page url")
                 return ApplicationResult(True)
@@ -147,8 +156,9 @@ class Gewobag(Provider):
 if __name__ == "__main__":
     #url = "https://www.gewobag.de/fuer-mietinteressentinnen/mietangebote/0100-01036-0601-0286-vms1/" # wbs
     #url = "https://www.gewobag.de/fuer-mietinteressentinnen/mietangebote/7100-72401-0101-0011/" # senior
-    url = "https://www.gewobag.de/fuer-mietinteressentinnen/mietangebote/6011-31046-0105-0045/" # more wbs fields
+    #url = "https://www.gewobag.de/fuer-mietinteressentinnen/mietangebote/6011-31046-0105-0045/" # more wbs fields
     #url = "https://www.gewobag.de/fuer-mietinteressentinnen/mietangebote/0100-01036-0401-0191/" # special need wbs
     #url = "https://www.gewobag.de/fuer-mietinteressentinnen/mietangebote/0100-02571-0103-0169/"
+    url = "https://www.gewobag.de/fuer-mietinteressentinnen/mietangebote/0100-02571-0103-169/" # page not found
     provider = Gewobag()
     provider.test_apply(url)

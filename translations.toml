@@ -41,3 +41,7 @@ de = "Diese Wohnung ist nur für Menschen mit einem besonderen Wohnbedarf."
 [missing_fields]
 en = "Required fields have not been filled."
 de = "Pflichtfelder wurden nicht ausgefüllt."
+
+[not_found]
+en = "Page was not found."
+de = "Diese Seite wurde nicht gefunden."
