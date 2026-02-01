@@ -14,52 +14,52 @@ class Gewobag(Provider):
 
     async def apply_for_flat(self, url) -> ApplicationResult:
         async with open_page(url) as page:
-            logging.info("\tSTEP 1: accepting cookies")
+            logger.info("\tSTEP 1: accepting cookies")
             cookie_accept_btn = page.get_by_text("Alle Cookies akzeptieren")
             if await cookie_accept_btn.is_visible():
                 await cookie_accept_btn.click()
-                logging.debug("\t\tcookie accept button clicked")
+                logger.debug("\t\tcookie accept button clicked")
             else:
-                logging.debug("\t\tno cookie accept button found")
+                logger.debug("\t\tno cookie accept button found")
 
-            logging.info("\tSTEP 2: check if ad is still open")
+            logger.info("\tSTEP 2: check if ad is still open")
             if await page.locator('#immo-mediation-notice').is_visible():
-                logging.debug("\t\tad closed notice found - returning")
+                logger.debug("\t\tad closed notice found - returning")
                 return ApplicationResult(
                     success=False,
                     message=_("ad_deactivated"))
-            logging.debug("\t\tno ad closed notice found")
+            logger.debug("\t\tno ad closed notice found")
 
-            logging.info("\tSTEP 3: go to the application form")
+            logger.info("\tSTEP 3: go to the application form")
             await page.get_by_role("button", name="Anfrage senden").first.click()
 
-            logging.info("\tSTEP 4: check if the flat is for seniors only")
+            logger.info("\tSTEP 4: check if the flat is for seniors only")
             if await self.is_senior_flat(page):
-                logging.debug("\t\tflat is for seniors only - returning")
+                logger.debug("\t\tflat is for seniors only - returning")
                 return ApplicationResult(False, _("senior_flat"))
-            logging.debug("\t\tflat is not seniors only")
+            logger.debug("\t\tflat is not seniors only")
 
-            logging.info("\tSTEP 5: check if the flat is for special needs wbs only")
+            logger.info("\tSTEP 5: check if the flat is for special needs wbs only")
             if await self.is_special_needs_wbs(page):
-                logging.debug("\t\tflat is for special needs wbs only - returning")
+                logger.debug("\t\tflat is for special needs wbs only - returning")
                 return ApplicationResult(False, _("special_need_wbs_flat"))
-            logging.debug("\t\tflat is not for special needs wbs only")
+            logger.debug("\t\tflat is not for special needs wbs only")
 
-            logging.info("\tSTEP 6: find the form iframe")
+            logger.info("\tSTEP 6: find the form iframe")
             form_iframe = page.frame_locator("#contact-iframe")
 
-            logging.info("\tSTEP 7: define helper functions")
+            logger.info("\tSTEP 7: define helper functions")
             async def fill_field(locator, filling):
-                logging.debug(f"\t\tfill_field('{locator}', '{filling}')")
+                logger.debug(f"\t\tfill_field('{locator}', '{filling}')")
                 field = form_iframe.locator(locator)
                 if await field.is_visible():
                     await field.fill(filling)
                     await page.wait_for_timeout(100)
                 else:
-                    logging.debug(f"\t\tfield was not found")
+                    logger.debug(f"\t\t\tfield was not found")
 
             async def select_field(locator, selection):
-                logging.debug(f"\t\tselect_field('{locator}', '{selection}')")
+                logger.debug(f"\t\tselect_field('{locator}', '{selection}')")
                 field = form_iframe.locator(locator)
                 if await field.is_visible():
                     await field.click()
@@ -67,28 +67,28 @@ class Gewobag(Provider):
                     await form_iframe.get_by_role("option", name=selection, exact=True).click()
                     await page.wait_for_timeout(100)
                 else:
-                    logging.debug(f"\t\tfield was not found")
+                    logger.debug(f"\t\t\tfield was not found")
 
             async def check_checkbox(locator):
-                logging.debug(f"\t\tcheck_checkbox('{locator}')")
+                logger.debug(f"\t\tcheck_checkbox('{locator}')")
                 field = form_iframe.locator(locator)
                 if await field.first.is_visible():
                     await field.evaluate_all("elements => elements.forEach(el => el.click())")
                     await page.wait_for_timeout(100)
                 else:
-                    logging.debug(f"\t\tfield was not found")
+                    logger.debug(f"\t\t\tfield was not found")
 
             async def upload_files(locator, files):
-                logging.debug(f"\t\tupload_files('{locator}', {str(files)})")
+                logger.debug(f"\t\tupload_files('{locator}', {str(files)})")
                 wbs_upload_section = form_iframe.locator(locator)
                 if await wbs_upload_section.count() > 0:
                     await wbs_upload_section.locator("input[type='file']").set_input_files(files)
                     await page.wait_for_timeout(2000)
                 else:
-                    logging.debug(f"\t\tfield was not found")
+                    logger.debug(f"\t\t\tfield was not found")
 
 
-            logging.info("\tSTEP 8: fill the form")
+            logger.info("\tSTEP 8: fill the form")
             await select_field("#salutation-dropdown", SALUTATION)
             await fill_field("#firstName", FIRSTNAME)
             await fill_field("#lastName", LASTNAME)
@@ -110,22 +110,22 @@ class Gewobag(Provider):
             await check_checkbox("input[id*='datenschutzhinweis']")
             await upload_files("el-application-form-document-upload", ["DummyPDF.pdf"])
 
-            logging.info("\tSTEP 9: submit the form")
+            logger.info("\tSTEP 9: submit the form")
             if not SUBMIT_FORMS:
-                logging.debug(f"\t\tdry run - not submitting")
+                logger.debug(f"\t\tdry run - not submitting")
                 return ApplicationResult(True, _("application_success_dry"))
             await form_iframe.get_by_role("button", name="Anfrage versenden").click()
             await page.wait_for_timeout(5000)
 
-            logging.info("\tSTEP 10: check the success")
+            logger.info("\tSTEP 10: check the success")
             if page.url.startswith("https://www.gewobag.de/daten-uebermittelt/"):
-                logging.info(f"\t\tsuccess detected by page url")
+                logger.info(f"\t\tsuccess detected by page url")
                 return ApplicationResult(True)
             elif self.is_missing_fields_warning(page):
-                logging.warn(f"\t\tmissing fields warning detected")
+                logger.warning(f"\t\tmissing fields warning detected")
                 return ApplicationResult(False, _("missing_fields"))
             else:
-                logging.warn(f"\t\tneither missing fields nor success detected")
+                logger.warning(f"\t\tneither missing fields nor success detected")
                 return ApplicationResult(False, _("submit_conformation_msg_not_found"))
 
     async def is_senior_flat(self, page):

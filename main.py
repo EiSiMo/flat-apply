@@ -14,11 +14,12 @@ from utils import *
 
 def setup_logging():
     logging.basicConfig(
-        level=logging.DEBUG,
+        level=logging.WARNING,
         format="%(message)s",
         datefmt="[%X]",
         handlers=[RichHandler(markup=True, console=Console(width=110))]
     )
+    logging.getLogger("flat-apply").setLevel(logging.DEBUG)
 
 logger = logging.getLogger("flat-apply")
 setup_logging()
@@ -29,12 +30,12 @@ class FlatApplier:
         self.telegram = Telegram()
 
     def scan_and_apply(self):
-        logging.info("checking for new messages")
+        logger.info("checking for new messages")
         messages = self.telegram.check_messages()
-        logging.info(f"found {len(messages)} new messages")
+        logger.info(f"found {len(messages)} new messages")
         for number, message in enumerate(messages, 1):
             message_text_preview = str_to_preview(message.get('text', ''), 30)
-            logging.info(f"{str(number).rjust(2)}: {message_text_preview}")
+            logger.info(f"{str(number).rjust(2)}: {message_text_preview}")
             url = self.get_apply_url_from_message(message)
             if not url:
                 logger.info("\tno url found in message")

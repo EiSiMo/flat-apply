@@ -1,4 +1,7 @@
 from language import _
+import logging
+
+logger = logging.getLogger("flat-apply")
 
 class ApplicationResult:
     def __init__(self, success: bool, message: str=""):

@@ -1,4 +1,7 @@
 from pathlib import Path
+import logging
+
+logger = logging.getLogger("flat-apply")
 
 def get_project_root() -> Path:
     """Returns the root directory of the project."""

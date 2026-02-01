@@ -1,3 +1,7 @@
+import logging
+
+logger = logging.getLogger("flat-apply")
+
 def str_to_preview(string, max_length):
     if not max_length > 3:
         raise ValueError('max_length must be greater than 3')

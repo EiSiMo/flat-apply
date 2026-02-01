@@ -1,8 +1,10 @@
 import asyncio
 from abc import ABC, abstractmethod
+import logging
 
 from classes.application_result import ApplicationResult
 
+logger = logging.getLogger("flat-apply")
 
 class Provider(ABC):
     @property

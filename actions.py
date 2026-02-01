@@ -2,6 +2,9 @@ from contextlib import asynccontextmanager
 from playwright.async_api import async_playwright, ViewportSize
 
 from settings import *
+import logging
+
+logger = logging.getLogger("flat-apply")
 
 @asynccontextmanager
 async def open_page(url):

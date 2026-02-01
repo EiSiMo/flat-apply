@@ -3,7 +3,9 @@ from language import _
 from classes.application_result import ApplicationResult
 from providers._provider import Provider
 from settings import *
+import logging
 
+logger = logging.getLogger("flat-apply")
 
 class Gesobau(Provider):
     @property

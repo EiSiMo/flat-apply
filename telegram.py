@@ -23,10 +23,10 @@ class Telegram:
             response = requests.get(url, params=params, timeout=TELEGRAM_POLLING_TIMEOUT+5)
             data = response.json()
         except Exception as e:
-            print(f"Network error getting updates: {e}")
+            logger.error(f"Network error getting updates: {e}")
             return []
         if not data.get("ok"):
-            print(f"Error from Telegram: {data}")
+            logger.error(f"Error from Telegram: {data}")
             return []
 
         messages = list()

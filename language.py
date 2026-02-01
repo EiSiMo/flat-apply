@@ -2,6 +2,9 @@ import tomllib
 
 from settings import *
 from paths import *
+import logging
+
+logger = logging.getLogger("flat-apply")
 
 with open(TRANSLATIONS_FILE, "rb") as f:
     TRANSLATIONS = tomllib.load(f)
