@@ -14,7 +14,7 @@ from utils import *
 
 def setup_logging():
     logging.basicConfig(
-        level=logging.INFO,
+        level=logging.DEBUG,
         format="%(message)s",
         datefmt="[%X]",
         handlers=[RichHandler(markup=True, console=Console(width=110))]
