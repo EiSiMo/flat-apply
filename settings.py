@@ -42,7 +42,7 @@ BROWSER_WIDTH: int = get_int_env("BROWSER_WIDTH", "600", False)
 BROWSER_HEIGHT: int = get_int_env("BROWSER_HEIGHT", "800", False)
 BROWSER_LOCALE: str = get_env_or_fail("BROWSER_LOCALE", "de-DE", False)
 POST_SUBMISSION_SLEEP_MS: int = get_int_env("POST_SUBMISSION_SLEEP_MS", "0", False)
-HEADLESS: bool = get_bool_env("HEADLESS", "False")
+HEADLESS: bool = get_bool_env("HEADLESS", "True")
 
 # --- Automation Mode ---
 FULL_AUTO_MODE: bool = get_bool_env("FULL_AUTO_MODE", "False")
