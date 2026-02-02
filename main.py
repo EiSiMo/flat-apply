@@ -27,6 +27,7 @@ setup_logging()
 
 class FlatApplier:
     def __init__(self):
+        log_settings()
         self.telegram = Telegram()
 
     def scan_and_apply(self):

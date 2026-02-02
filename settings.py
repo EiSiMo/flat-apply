@@ -82,3 +82,44 @@ IMMOMIO_PASSWORD: str = get_env_or_fail("IMMOMIO_PASSWORD", required=False)
 
 # --- Telegram Settings ---
 TELEGRAM_POLLING_TIMEOUT: int = get_int_env("TELEGRAM_POLLING_TIMEOUT", "30", False)
+
+def log_settings():
+    logger.debug("--- Settings ---")
+    logger.debug(f"LANGUAGE: {LANGUAGE}")
+    logger.debug(f"BROWSER_WIDTH: {BROWSER_WIDTH}")
+    logger.debug(f"BROWSER_HEIGHT: {BROWSER_HEIGHT}")
+    logger.debug(f"BROWSER_LOCALE: {BROWSER_LOCALE}")
+    logger.debug(f"POST_SUBMISSION_SLEEP_MS: {POST_SUBMISSION_SLEEP_MS}")
+    logger.debug(f"HEADLESS: {HEADLESS}")
+    logger.debug(f"FULL_AUTO_MODE: {FULL_AUTO_MODE}")
+    logger.debug(f"SUBMIT_FORMS: {SUBMIT_FORMS}")
+    logger.debug(f"SALUTATION: {SALUTATION}")
+    logger.debug(f"LASTNAME: {LASTNAME}")
+    logger.debug(f"FIRSTNAME: {FIRSTNAME}")
+    logger.debug(f"EMAIL: {EMAIL}")
+    logger.debug(f"TELEPHONE: {TELEPHONE}")
+    logger.debug(f"STREET: {STREET}")
+    logger.debug(f"HOUSE_NUMBER: {HOUSE_NUMBER}")
+    logger.debug(f"POSTCODE: {POSTCODE}")
+    logger.debug(f"CITY: {CITY}")
+    logger.debug(f"IS_POSSESSING_WBS: {IS_POSSESSING_WBS}")
+    logger.debug(f"WBS_TYPE: {WBS_TYPE}")
+    logger.debug(f"WBS_VALID_TILL: {WBS_VALID_TILL}")
+    logger.debug(f"WBS_ROOMS: {WBS_ROOMS}")
+    logger.debug(f"WBS_ADULTS: {WBS_ADULTS}")
+    logger.debug(f"WBS_CHILDREN: {WBS_CHILDREN}")
+    logger.debug(f"PERSON_COUNT: {PERSON_COUNT}")
+    logger.debug(f"IS_PRIO_WBS: {IS_PRIO_WBS}")
+    logger.debug(f"IS_APPLYING_FOR_THIRD: {IS_APPLYING_FOR_THIRD}")
+    logger.debug(f"THIRDS_FIRSTNAME: {THIRDS_FIRSTNAME}")
+    logger.debug(f"THIRDS_LASTNAME: {THIRDS_LASTNAME}")
+    
+    masked_token = f"{TELEGRAM_TOKEN[:4]}...{TELEGRAM_TOKEN[-4:]}" if TELEGRAM_TOKEN and len(TELEGRAM_TOKEN) > 8 else "***"
+    logger.debug(f"TELEGRAM_TOKEN: {masked_token}")
+    logger.debug(f"TELEGRAM_CHAT_ID: {TELEGRAM_CHAT_ID}")
+    logger.debug(f"IMMOMIO_EMAIL: {IMMOMIO_EMAIL}")
+    
+    masked_password = "***" if IMMOMIO_PASSWORD else "None"
+    logger.debug(f"IMMOMIO_PASSWORD: {masked_password}")
+
+    logger.debug(f"TELEGRAM_POLLING_TIMEOUT: {TELEGRAM_POLLING_TIMEOUT}")
