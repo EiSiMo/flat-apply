@@ -27,7 +27,7 @@ but user-friendly configuration options are planned for future updates. Contribu
 | provider        | implementation status                 |
 |:----------------|:--------------------------------------|
 | gewobag.de      | 🟢 working but needs field testing    |
-| gesobau.de      | 🔴 not working yet                    |
+| gesobau.de      | 🟢 working but needs field testing    |
 | degewo.de       | 🟢 working but needs field testing    |
 | howoge.de       | 🟢 working but needs field testing    |
 | stadtundland.de | 🟢 working but needs field testing    |
