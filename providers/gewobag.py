@@ -24,7 +24,7 @@ class Gewobag(Provider):
 
             logger.info("\tSTEP 2: check if the page was not found")
             if await page.get_by_text("Mietangebot nicht gefunden").first.is_visible():
-                logger.debug("\t\t'page not found' message found")
+                logger.debug("\t\t'page not found' message found - returning")
                 return ApplicationResult(
                     success=False,
                     message=_("not_found"))
