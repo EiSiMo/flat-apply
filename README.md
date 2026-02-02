@@ -24,14 +24,14 @@ but user-friendly configuration options are planned for future updates. Contribu
 
 ### Current housing provider implementation reliability
 
-| provider        | implementation status              |
-|:----------------|:-----------------------------------|
-| gewobag.de      | 🟢 working but needs field testing |
-| gesobau.de      | 🔴 not working yet                 |
-| degewo.de       | 🟢 working but needs field testing |
-| howoge.de       | 🟢 working but needs field testing |
-| stadtundland.de | 🟡 working but needs restructure   |
-| wbm.de          | 🟡 working but needs restructure   |
+| provider        | implementation status                |
+|:----------------|:-------------------------------------|
+| gewobag.de      | 🟢 working but needs field testing   |
+| gesobau.de      | 🔴 not working yet                   |
+| degewo.de       | 🟢 working but needs field testing   |
+| howoge.de       | 🟢 working but needs field testing   |
+| stadtundland.de | 🟢 working but needs field testing   |
+| wbm.de          | 🟡 working but needs restructure     |
 
 ## Quickstart
 
