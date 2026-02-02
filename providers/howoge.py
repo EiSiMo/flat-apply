@@ -24,11 +24,11 @@ class Howoge(Provider):
 
             logger.info("\tSTEP 2: check if the page was not found")
             if page.url == "https://www.howoge.de/404":
-                logger.debug("\t\t'page not found' message found - returning")
+                logger.debug("\t\t'page not found' url found - returning")
                 return ApplicationResult(
                     success=False,
                     message=_("not_found"))
-            logger.debug("\t\t'page not found' message not found")
+            logger.debug("\t\t'page not found' url not found")
 
             logger.info("\tSTEP 3: go to the application form")
             await page.get_by_role("link", name="Besichtigung anfragen").click()
