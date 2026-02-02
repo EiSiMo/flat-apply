@@ -105,9 +105,6 @@ def log_settings():
     logger.debug(f"WBS_CHILDREN: {CHILDREN_COUNT}")
     logger.debug(f"PERSON_COUNT: {PERSON_COUNT}")
     logger.debug(f"IS_PRIO_WBS: {IS_PRIO_WBS}")
-    logger.debug(f"IS_APPLYING_FOR_THIRD: {IS_APPLYING_FOR_THIRD}")
-    logger.debug(f"THIRDS_FIRSTNAME: {THIRDS_FIRSTNAME}")
-    logger.debug(f"THIRDS_LASTNAME: {THIRDS_LASTNAME}")
     
     masked_token = f"{TELEGRAM_TOKEN[:4]}...{TELEGRAM_TOKEN[-4:]}" if TELEGRAM_TOKEN and len(TELEGRAM_TOKEN) > 8 else "***"
     logger.debug(f"TELEGRAM_TOKEN: {masked_token}")
