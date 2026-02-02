@@ -45,3 +45,7 @@ de = "Pflichtfelder wurden nicht ausgefüllt."
 [not_found]
 en = "Page was not found."
 de = "Diese Seite wurde nicht gefunden."
+
+[already_applied]
+en = "Application already present for this email."
+de = "Für diese Email gibt es bereits eine Bewerbung."
