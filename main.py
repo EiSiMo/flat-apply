@@ -60,7 +60,12 @@ class FlatApplier:
             logger.info(f"\tformulating response message")
             response_text = str(feedback)
             logger.info(f"\tsending response message")
-            self.telegram.send_message(response_text)
+            
+            reply_to_id = message["message_id"]
+            if not FULL_AUTO_MODE and "reply_to_message" in message:
+                reply_to_id = message["reply_to_message"]["message_id"]
+                
+            self.telegram.send_message_reply(response_text, reply_to_id)
 
 
     def get_apply_url_from_message(self, message):

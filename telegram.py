@@ -42,13 +42,26 @@ class Telegram:
         return messages
 
     def send_message(self, msg):
-        # TODO reply to message?
         url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
         payload = {
             "chat_id": TELEGRAM_CHAT_ID,
             "text": msg,
             "parse_mode": "Markdown",
             "disable_web_page_preview": True
+        }
+        try:
+            requests.post(url, json=payload, timeout=10)
+        except Exception as e:
+            logger.error(f"failed to send telegram message: {e}")
+
+    def send_message_reply(self, msg, reply_to_message_id):
+        url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
+        payload = {
+            "chat_id": TELEGRAM_CHAT_ID,
+            "text": msg,
+            "parse_mode": "Markdown",
+            "disable_web_page_preview": True,
+            "reply_to_message_id": reply_to_message_id
         }
         try:
             requests.post(url, json=payload, timeout=10)
