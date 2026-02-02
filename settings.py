@@ -69,11 +69,6 @@ WBS_CHILDREN: int = get_int_env("WBS_CHILDREN", "0", False)
 PERSON_COUNT: int = WBS_ADULTS + WBS_CHILDREN
 IS_PRIO_WBS: bool = get_bool_env("IS_PRIO_WBS", "False")
 
-# --- Third Person Application ---
-IS_APPLYING_FOR_THIRD: bool = get_bool_env("IS_APPLYING_FOR_THIRD", "False")
-THIRDS_FIRSTNAME: str = get_env_or_fail("THIRDS_FIRSTNAME", "", False)
-THIRDS_LASTNAME: str = get_env_or_fail("THIRDS_LASTNAME", "", False)
-
 # --- Secrets ---
 TELEGRAM_TOKEN: str = get_env_or_fail("TELEGRAM_TOKEN")
 TELEGRAM_CHAT_ID: int = get_int_env("TELEGRAM_CHAT_ID")
