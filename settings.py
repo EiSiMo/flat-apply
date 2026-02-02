@@ -1,58 +1,86 @@
+import logging
+import sys
 from datetime import datetime as dt
-from dotenv import load_dotenv
 from os import getenv
+from dotenv import load_dotenv
+
+logger = logging.getLogger("flat-apply")
 
 load_dotenv()
 
-LANGUAGE: str = "de"
+def get_env_or_fail(key: str, default: str = None, required: bool = True) -> str:
+    value = getenv(key, default)
+    if required and value is None:
+        logger.error(f"Missing required environment variable: {key}")
+        sys.exit(1)
+    return value
 
-BROWSER_WIDTH: int = 600
-BROWSER_HEIGHT: int = 800
-BROWSER_LOCALE: str = "de-DE"
-POST_SUBMISSION_SLEEP_MS: int = 0
+def get_bool_env(key: str, default: str = "False") -> bool:
+    return get_env_or_fail(key, default, False).lower() in ("true", "1", "yes", "on")
 
-FULL_AUTO_MODE: bool = getenv("FULL_AUTO_MODE", "False").lower() in ("true", "1")
-SUBMIT_FORMS: bool = getenv("SUBMIT_FORMS", "False").lower() in ("true", "1")
-HEADLESS: bool = getenv("HEADLESS", "False").lower() in ("true", "1")
+def get_int_env(key: str, default: str = None, required: bool = True) -> int:
+    value_str = get_env_or_fail(key, default, required)
+    try:
+        return int(value_str)
+    except ValueError:
+        logger.error(f"Environment variable {key} must be an integer. Got: {value_str}")
+        sys.exit(1)
 
-# personal information
-SALUTATION: str = "Herr"
-LASTNAME: str = "Mustermann"
-FIRSTNAME: str = "Max"
-EMAIL: str = "max.mustermann@example.com"
-MESSAGE: str = "Ich habe großes Interesse an dieser Wohnung!"
-TELEPHONE = "0123 45678901"
-PERSON_COUNT: int = 2
+def get_date_env(key: str, fmt: str = "%Y-%m-%d", default: str = None, required: bool = True) -> dt:
+    value_str = get_env_or_fail(key, default, required)
+    try:
+        return dt.strptime(value_str, fmt)
+    except ValueError:
+        logger.error(f"Environment variable {key} must be a date in format {fmt}. Got: {value_str}")
+        sys.exit(1)
 
-STREET = "Musterstraße"
-HOUSE_NUMBER = "123"
-POSTCODE = "12345"
-CITY = "Musterstadt"
-EMAIL = "max.mustermann@example.com"
+# --- General Settings ---
+LANGUAGE: str = get_env_or_fail("LANGUAGE", "de", False)
 
+# --- Browser Settings ---
+BROWSER_WIDTH: int = get_int_env("BROWSER_WIDTH", "600", False)
+BROWSER_HEIGHT: int = get_int_env("BROWSER_HEIGHT", "800", False)
+BROWSER_LOCALE: str = get_env_or_fail("BROWSER_LOCALE", "de-DE", False)
+POST_SUBMISSION_SLEEP_MS: int = get_int_env("POST_SUBMISSION_SLEEP_MS", "0", False)
+HEADLESS: bool = get_bool_env("HEADLESS", "False")
 
-# WBS information
-IS_POSSESSING_WBS: bool = True
-WBS_TYPE: str = "180"
-WBS_VALID_TILL: dt = dt(2026, 12, 1)
-WBS_ROOMS: int = 2
-WBS_ADULTS: int = 2
-WBS_CHILDREN: int = 0
-IS_PRIO_WBS: bool = False
+# --- Automation Mode ---
+FULL_AUTO_MODE: bool = get_bool_env("FULL_AUTO_MODE", "False")
+SUBMIT_FORMS: bool = get_bool_env("SUBMIT_FORMS", "False")
 
-# applying for another person
-IS_APPLYING_FOR_THIRD: bool = True
-THIRDS_FIRSTNAME: str = "Maddy"
-THIRDS_LASTNAME: str = "Musterfrau"
+# --- Personal Information ---
+SALUTATION: str = get_env_or_fail("SALUTATION")
+LASTNAME: str = get_env_or_fail("LASTNAME")
+FIRSTNAME: str = get_env_or_fail("FIRSTNAME")
+EMAIL: str = get_env_or_fail("EMAIL")
+MESSAGE: str = get_env_or_fail("MESSAGE")
+TELEPHONE: str = get_env_or_fail("TELEPHONE")
+PERSON_COUNT: int = get_int_env("PERSON_COUNT")
 
-# secrets
-GMAPS_API_KEY = getenv("GMAPS_API_KEY")
-TELEGRAM_TOKEN = getenv("TELEGRAM_TOKEN")
-TELEGRAM_CHAT_ID = int(getenv("TELEGRAM_CHAT_ID"))
-BERLIN_WOHNEN_USERNAME = getenv("BERLIN_WOHNEN_USERNAME")
-BERLIN_WOHNEN_PASSWORD = getenv("BERLIN_WOHNEN_PASSWORD")
-IMMOMIO_EMAIL = getenv("IMMOMIO_EMAIL")
-IMMOMIO_PASSWORD = getenv("IMMOMIO_PASSWORD")
+STREET: str = get_env_or_fail("STREET")
+HOUSE_NUMBER: str = get_env_or_fail("HOUSE_NUMBER")
+POSTCODE: str = get_env_or_fail("POSTCODE")
+CITY: str = get_env_or_fail("CITY")
 
-# telegram
-TELEGRAM_POLLING_TIMEOUT: int = 30
+# --- WBS Information ---
+IS_POSSESSING_WBS: bool = get_bool_env("IS_POSSESSING_WBS", "False")
+WBS_TYPE: str = get_env_or_fail("WBS_TYPE", "0", False)
+WBS_VALID_TILL: dt = get_date_env("WBS_VALID_TILL", default="1970-01-01", required=False)
+WBS_ROOMS: int = get_int_env("WBS_ROOMS", "0", False)
+WBS_ADULTS: int = get_int_env("WBS_ADULTS", "0", False)
+WBS_CHILDREN: int = get_int_env("WBS_CHILDREN", "0", False)
+IS_PRIO_WBS: bool = get_bool_env("IS_PRIO_WBS", "False")
+
+# --- Third Person Application ---
+IS_APPLYING_FOR_THIRD: bool = get_bool_env("IS_APPLYING_FOR_THIRD", "False")
+THIRDS_FIRSTNAME: str = get_env_or_fail("THIRDS_FIRSTNAME", "", False)
+THIRDS_LASTNAME: str = get_env_or_fail("THIRDS_LASTNAME", "", False)
+
+# --- Secrets ---
+TELEGRAM_TOKEN: str = get_env_or_fail("TELEGRAM_TOKEN")
+TELEGRAM_CHAT_ID: int = get_int_env("TELEGRAM_CHAT_ID")
+IMMOMIO_EMAIL: str = get_env_or_fail("IMMOMIO_EMAIL", required=False)
+IMMOMIO_PASSWORD: str = get_env_or_fail("IMMOMIO_PASSWORD", required=False)
+
+# --- Telegram Settings ---
+TELEGRAM_POLLING_TIMEOUT: int = get_int_env("TELEGRAM_POLLING_TIMEOUT", "30", False)
