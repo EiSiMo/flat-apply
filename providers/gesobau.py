@@ -14,7 +14,9 @@ class Gesobau(Provider):
 
     async def apply_for_flat(self, url) -> ApplicationResult:
         async with open_page(url) as page:
-            await page.goto("https://tenant.immomio.com/de/auth/login")
+            immomio_link = await page.get_by_role("link", name="Jetzt bewerben").get_attribute("href")
+            await page.goto(immomio_link)
+            # TODO keep developing here
             await page.locator('input[name="email"]').fill(IMMOMIO_EMAIL)
             await page.get_by_role("button", name="Anmelden").click()
             await page.locator("#password").fill(IMMOMIO_PASSWORD)
