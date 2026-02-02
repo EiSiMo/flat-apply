@@ -53,10 +53,7 @@ SALUTATION: str = get_env_or_fail("SALUTATION")
 LASTNAME: str = get_env_or_fail("LASTNAME")
 FIRSTNAME: str = get_env_or_fail("FIRSTNAME")
 EMAIL: str = get_env_or_fail("EMAIL")
-MESSAGE: str = get_env_or_fail("MESSAGE")
 TELEPHONE: str = get_env_or_fail("TELEPHONE")
-PERSON_COUNT: int = get_int_env("PERSON_COUNT")
-
 STREET: str = get_env_or_fail("STREET")
 HOUSE_NUMBER: str = get_env_or_fail("HOUSE_NUMBER")
 POSTCODE: str = get_env_or_fail("POSTCODE")
@@ -69,6 +66,7 @@ WBS_VALID_TILL: dt = get_date_env("WBS_VALID_TILL", default="1970-01-01", requir
 WBS_ROOMS: int = get_int_env("WBS_ROOMS", "0", False)
 WBS_ADULTS: int = get_int_env("WBS_ADULTS", "0", False)
 WBS_CHILDREN: int = get_int_env("WBS_CHILDREN", "0", False)
+PERSON_COUNT: int = WBS_ADULTS + WBS_CHILDREN
 IS_PRIO_WBS: bool = get_bool_env("IS_PRIO_WBS", "False")
 
 # --- Third Person Application ---
