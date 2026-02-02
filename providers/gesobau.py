@@ -17,27 +17,11 @@ class Gesobau(Provider):
             logger.info("\tSTEP 1: extracting immomio link")
             immomio_link = await page.get_by_role("link", name="Jetzt bewerben").get_attribute("href")
 
-            logger.info("\tSTEP 2: going to immomio")
-            await page.goto(immomio_link)
+            logger.info("\tSTEP 2: going to auth page")
+            await page.goto("https://tenant.immomio.com/de/auth/login")
             await page.wait_for_timeout(1000)
 
-            logger.info("\tSTEP 3: accepting cookies")
-            cookie_accept_btn = page.get_by_role("button", name="Alle erlauben")
-            if await cookie_accept_btn.is_visible():
-                await cookie_accept_btn.click()
-                logger.debug("\t\tcookie accept button clicked")
-            else:
-                logger.debug("\t\tno cookie accept button found")
-
-            logger.info("\tSTEP 4: clicking apply now")
-            await page.get_by_role("button", name="Jetzt bewerben").click()
-            await page.wait_for_timeout(1000)
-
-            logger.info("\tSTEP 5: clicking login")
-            await page.get_by_role("button", name="Anmelden").click()
-            await page.wait_for_timeout(1000)
-
-            logger.info("\tSTEP 6: logging in")
+            logger.info("\tSTEP 3: logging in")
             await page.locator('input[name="email"]').fill(IMMOMIO_EMAIL)
             await page.get_by_role("button", name="Anmelden").click()
             await page.wait_for_timeout(1000)
@@ -45,19 +29,27 @@ class Gesobau(Provider):
             await page.locator("#kc-login").click()
             await page.wait_for_timeout(1000)
 
-            logger.info("\tSTEP 7: going back to immomio")
+            logger.info("\tSTEP 4: going back to immomio")
             await page.goto(immomio_link)
             await page.wait_for_timeout(1000)
 
-            logger.info("\tSTEP 8: click apply now")
+            logger.info("\tSTEP 5: accepting cookies")
+            cookie_accept_btn = page.get_by_role("button", name="Alle erlauben")
+            if await cookie_accept_btn.is_visible():
+                await cookie_accept_btn.click()
+                logger.debug("\t\tcookie accept button clicked")
+            else:
+                logger.debug("\t\tno cookie accept button found")
+
+            logger.info("\tSTEP 6: click apply now")
             await page.get_by_role("button", name="Jetzt bewerben").click()
             await page.wait_for_timeout(3000)
 
-            logger.info("\tSTEP 9: check if already applied")
+            logger.info("\tSTEP 7: check if already applied")
             if page.url == "https://tenant.immomio.com/de/properties/applications":
                 return ApplicationResult(False, message=_("already_applied"))
 
-            logger.info("\tSTEP 10: clicking answer questions")
+            logger.info("\tSTEP 8: clicking answer questions")
             answer_questions_btn = page.get_by_role("button", name="Fragen beantworten")
             if await answer_questions_btn.is_visible():
                 await answer_questions_btn.click()
@@ -72,7 +64,7 @@ class Gesobau(Provider):
                 await page.wait_for_timeout(2000)
 
 
-            logger.info("\tSTEP 11: verifying success by answer button vanishing")
+            logger.info("\tSTEP 9: verifying success by answer button vanishing")
             if not await answer_questions_btn.is_visible(): # TODO better verify success
                 logger.info("\t\tsuccess detected by answer button vanishing")
                 return ApplicationResult(True)
