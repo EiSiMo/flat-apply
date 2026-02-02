@@ -64,9 +64,9 @@ IS_POSSESSING_WBS: bool = get_bool_env("IS_POSSESSING_WBS", "False")
 WBS_TYPE: str = get_env_or_fail("WBS_TYPE", "0", False)
 WBS_VALID_TILL: dt = get_date_env("WBS_VALID_TILL", default="1970-01-01", required=False)
 WBS_ROOMS: int = get_int_env("WBS_ROOMS", "0", False)
-WBS_ADULTS: int = get_int_env("WBS_ADULTS", "0", False)
-WBS_CHILDREN: int = get_int_env("WBS_CHILDREN", "0", False)
-PERSON_COUNT: int = WBS_ADULTS + WBS_CHILDREN
+ADULT_COUNT: int = get_int_env("WBS_ADULTS", "0", False)
+CHILDREN_COUNT: int = get_int_env("WBS_CHILDREN", "0", False)
+PERSON_COUNT: int = ADULT_COUNT + CHILDREN_COUNT
 IS_PRIO_WBS: bool = get_bool_env("IS_PRIO_WBS", "False")
 
 # --- Secrets ---
@@ -101,8 +101,8 @@ def log_settings():
     logger.debug(f"WBS_TYPE: {WBS_TYPE}")
     logger.debug(f"WBS_VALID_TILL: {WBS_VALID_TILL}")
     logger.debug(f"WBS_ROOMS: {WBS_ROOMS}")
-    logger.debug(f"WBS_ADULTS: {WBS_ADULTS}")
-    logger.debug(f"WBS_CHILDREN: {WBS_CHILDREN}")
+    logger.debug(f"WBS_ADULTS: {ADULT_COUNT}")
+    logger.debug(f"WBS_CHILDREN: {CHILDREN_COUNT}")
     logger.debug(f"PERSON_COUNT: {PERSON_COUNT}")
     logger.debug(f"IS_PRIO_WBS: {IS_PRIO_WBS}")
     logger.debug(f"IS_APPLYING_FOR_THIRD: {IS_APPLYING_FOR_THIRD}")
