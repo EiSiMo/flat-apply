@@ -52,7 +52,3 @@ Follow these steps to run the program on your machine:
     ```bash
     docker compose up -d
     ```
-
-## Related Projects
-
-*   [flat-apply](https://github.com/EiSiMo/flat-apply): A tool currently in development to automate the application process for flats found by flat-alert.
