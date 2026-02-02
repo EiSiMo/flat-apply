@@ -71,7 +71,7 @@ class FlatApplier:
     def get_apply_url_from_message(self, message):
         if not FULL_AUTO_MODE:
             text = message.get("text", "").strip()
-            if text.lower() != "bewerben":
+            if text.lower() not in ["bewerben", "apply"]:
                 return None
             if "reply_to_message" not in message:
                 return None
