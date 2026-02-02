@@ -58,7 +58,6 @@ class Degewo(Provider):
             await form_frame.locator("#firstName").fill(FIRSTNAME)
             await form_frame.locator("#lastName").fill(LASTNAME)
             await form_frame.locator("#email").fill(EMAIL)
-            await form_frame.locator("#applicant-message").fill(MESSAGE)
             await form_frame.locator("input[title='Telefonnummer']").fill(TELEPHONE)
             await form_frame.locator("input[title='Anzahl einziehende Personen']").fill(str(PERSON_COUNT))
             await page.wait_for_timeout(1000)
