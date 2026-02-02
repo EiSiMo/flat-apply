@@ -15,8 +15,9 @@ class Degewo(Provider):
     async def apply_for_flat(self, url) -> ApplicationResult:
         async with open_page(url) as page:
             logger.info("\tSTEP 1: accepting cookies")
-            if await page.locator("#cookie-consent-submit-all").is_visible():
-                await page.locator("#cookie-consent-submit-all").click()
+            cookie_accept_btn = page.locator("#cookie-consent-submit-all")
+            if await cookie_accept_btn.is_visible():
+                await cookie_accept_btn.click()
                 logger.debug("\t\tcookie accept button clicked")
             else:
                 logger.debug("\t\tno cookie accept button found")
