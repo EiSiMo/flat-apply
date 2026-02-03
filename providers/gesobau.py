@@ -75,7 +75,7 @@ class Gesobau(Provider):
 
 if __name__ == "__main__":
     # url = "https://www.gesobau.de/?immo_ref=10-03239-00007-1185" # already applied
-    url = "https://www.gesobau.de/mieten/wohnungssuche/detailseite/florastrasse-10-12179-00002-1002-1d4d1a94-b555-48f8-b06d-d6fc02aecb0d/"
+    # url = "https://www.gesobau.de/mieten/wohnungssuche/detailseite/florastrasse-10-12179-00002-1002-1d4d1a94-b555-48f8-b06d-d6fc02aecb0d/"
     url = "https://www.gesobau.de/mieten/wohnungssuche/detailseite/rolandstrasse-10-03020-00007-1052-7f47d893-e659-4e4f-a7cd-5dcd53f4e6d7/"
     provider = Gesobau()
     provider.test_apply(url)
