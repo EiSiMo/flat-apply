@@ -10,7 +10,7 @@ logger = logging.getLogger("flat-apply")
 class Gesobau(Provider):
     @property
     def domain(self) -> str:
-        return "www.gesobau.de"
+        return "gesobau.de"
 
     async def apply_for_flat(self, url) -> ApplicationResult:
         async with open_page(url) as page:

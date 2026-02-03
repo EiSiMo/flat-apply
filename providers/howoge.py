@@ -10,7 +10,7 @@ logger = logging.getLogger("flat-apply")
 class Howoge(Provider):
     @property
     def domain(self) -> str:
-        return "www.howoge.de"
+        return "howoge.de"
 
     async def apply_for_flat(self, url) -> ApplicationResult:
         async with open_page(url) as page:

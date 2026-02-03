@@ -11,7 +11,7 @@ logger = logging.getLogger("flat-apply")
 class Wbm(Provider):
     @property
     def domain(self) -> str:
-        return "www.wbm.de"
+        return "wbm.de"
 
     async def apply_for_flat(self, url) -> ApplicationResult:
         async with open_page(url) as page:

@@ -42,7 +42,7 @@ class FlatApplier:
                 logger.info("\tno url found in message")
                 return
             logger.info(f"\turl found in message")
-            domain = urlparse(url).netloc.lower()
+            domain = urlparse(url).netloc.lower().removeprefix("www.")
             logger.info(f"\tdomain {domain} extracted from url")
 
             if domain not in providers.PROVIDERS:
