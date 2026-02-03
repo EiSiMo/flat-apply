@@ -87,7 +87,11 @@ class Gewobag(Provider):
                 else:
                     logger.debug(f"\t\t\tfield was not found")
 
-            async def upload_files(locator, files):
+            async def upload_files(locator, files=None):
+                if not files:
+                    create_dummy_pdf()
+                    files = ["DummyPDF.pdf"]
+
                 logger.debug(f"\t\tupload_files('{locator}', {str(files)})")
                 wbs_upload_section = form_iframe.locator(locator)
                 if await wbs_upload_section.count() > 0:
@@ -117,7 +121,7 @@ class Gewobag(Provider):
             await select_field("input[id*='fuer_wen']", "Für mich selbst")
             await fill_field("input[id*='telephone_number']", TELEPHONE)
             await check_checkbox("input[id*='datenschutzhinweis']")
-            await upload_files("el-application-form-document-upload", ["DummyPDF.pdf"])
+            await upload_files("el-application-form-document-upload", files=None)
 
             logger.info("\tSTEP 10: submit the form")
             if not SUBMIT_FORMS:
@@ -156,9 +160,9 @@ class Gewobag(Provider):
 if __name__ == "__main__":
     #url = "https://www.gewobag.de/fuer-mietinteressentinnen/mietangebote/0100-01036-0601-0286-vms1/" # wbs
     #url = "https://www.gewobag.de/fuer-mietinteressentinnen/mietangebote/7100-72401-0101-0011/" # senior
-    #url = "https://www.gewobag.de/fuer-mietinteressentinnen/mietangebote/6011-31046-0105-0045/" # more wbs fields
+    url = "https://www.gewobag.de/fuer-mietinteressentinnen/mietangebote/6011-31046-0105-0045/" # more wbs fields
     #url = "https://www.gewobag.de/fuer-mietinteressentinnen/mietangebote/0100-01036-0401-0191/" # special need wbs
     #url = "https://www.gewobag.de/fuer-mietinteressentinnen/mietangebote/0100-02571-0103-0169/"
-    url = "https://www.gewobag.de/fuer-mietinteressentinnen/mietangebote/0100-02571-0103-169/" # page not found
+    # url = "https://www.gewobag.de/fuer-mietinteressentinnen/mietangebote/0100-02571-0103-169/" # page not found
     provider = Gewobag()
     provider.test_apply(url)

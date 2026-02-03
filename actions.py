@@ -1,5 +1,6 @@
 from contextlib import asynccontextmanager
 from playwright.async_api import async_playwright, ViewportSize
+from reportlab.pdfgen import canvas
 
 from settings import *
 import logging
@@ -31,3 +32,9 @@ async def open_page(url):
         finally:
             await page.wait_for_timeout(POST_SUBMISSION_SLEEP_MS)
             await browser.close()
+
+def create_dummy_pdf():
+    logger.info("creating dummy pdf")
+    c = canvas.Canvas("DummyPDF.pdf")
+    c.drawString(100, 750, "Hello! This is a dummy PDF file.")
+    c.save()
