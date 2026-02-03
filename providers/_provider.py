@@ -15,6 +15,7 @@ class Provider(ABC):
 
     @abstractmethod
     async def apply_for_flat(self, url: str) -> ApplicationResult:
+        """every flat provider needs to be able to apply for flats"""
         pass
 
     def test_apply(self, url):
