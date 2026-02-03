@@ -100,6 +100,7 @@ class Degewo(Provider):
             return ApplicationResult(success=False, message=_("submit_conformation_msg_not_found"))
 
     async def is_already_applied_warning(self, page):
+        await page.wait_for_timeout(1000)
         form_iframe = page.frame_locator("iframe[src*='wohnungshelden']")
         already_applied_warning = form_iframe.locator("span.ant-alert-message",
                                                 has_text="Es existiert bereits eine Anfrage mit dieser E-Mail Adresse")
@@ -108,6 +109,7 @@ class Degewo(Provider):
         return False
 
     async def is_missing_fields_warning(self, page):
+        await page.wait_for_timeout(1000)
         form_iframe = page.frame_locator("iframe[src*='wohnungshelden']")
         already_applied_warning = form_iframe.locator("span.ant-alert-message",
                                                       has_text="Es wurden nicht alle Felder korrekt befüllt. Bitte prüfen Sie ihre Eingaben")
@@ -120,6 +122,7 @@ if __name__ == "__main__":
     # url = "https://www.degewo.de/immosuche/details/wohnung-sucht-neuen-mieter-1" # angebot geschlossen
     # url = "https://www.degewo.de/immosuche/details/wohnung-sucht-neuen-mieter-145" # seite nicht gefunden
     # url = "https://www.degewo.de/immosuche/details/1-zimmer-mit-balkon-3"
+    # url = "https://www.degewo.de/immosuche/details/2-zimmer-in-gropiusstadt-4"
     url = "https://www.degewo.de/immosuche/details/2-zimmer-in-gropiusstadt-4"
     provider = Degewo()
     provider.test_apply(url)
