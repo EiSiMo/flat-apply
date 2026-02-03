@@ -22,8 +22,10 @@ class Telegram:
         try:
             response = requests.get(url, params=params, timeout=TELEGRAM_POLLING_TIMEOUT+5)
             data = response.json()
+            logger.debug(f"raw telegram response: {data}")
         except Exception as e:
             logger.error(f"Network error getting updates: {e}")
+            logger.warning(f"network error fetching telegram updates")
             return []
         if not data.get("ok"):
             logger.error(f"Error from Telegram: {data}")
@@ -31,6 +33,7 @@ class Telegram:
 
         messages = list()
         updates = data.get("result", [])
+        logger.debug(f"found {len(updates)} updates")
         for update in updates:
             self.offset = update['update_id'] + 1
             if "message" not in update.keys():
@@ -39,6 +42,7 @@ class Telegram:
             if message["chat"]["id"] != TELEGRAM_CHAT_ID:
                 continue
             messages.append(message)
+        logger.debug(f"returning {len(messages)} messages")
         return messages
 
     def send_message(self, msg):
