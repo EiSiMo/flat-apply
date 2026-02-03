@@ -62,18 +62,19 @@ class Degewo(Provider):
             await form_frame.locator("input[title='Telefonnummer']").fill(TELEPHONE)
             await form_frame.locator("input[title='Anzahl einziehende Personen']").fill(str(PERSON_COUNT))
             await page.wait_for_timeout(1000)
-            if IS_POSSESSING_WBS:
-                await form_frame.locator("input[id*='wbs_available'][id$='Ja']").click()
-            else:
-                await form_frame.locator("input[id*='wbs_available'][id$='Nein']").click()
-            await form_frame.locator("input[title='WBS gültig bis']").fill(WBS_VALID_TILL.strftime("%d.%m.%Y"))
-            await page.wait_for_timeout(1000)
-            wbs_rooms_select = form_frame.locator("ng-select[id*='wbs_max_number_rooms']")
-            await wbs_rooms_select.click()
-            await page.wait_for_timeout(1000)
-            correct_wbs_room_option = form_frame.get_by_role("option", name=str(WBS_ROOMS), exact=True)
-            await correct_wbs_room_option.click()
-            await page.wait_for_timeout(1000)
+            wbs_question = form_frame.locator("input[id*='wbs_available'][id$='Ja']")
+            if await wbs_question.is_visible():
+                if not IS_POSSESSING_WBS:
+                    return ApplicationResult(False, _("wbs_required"))
+                await wbs_question.click()
+                await form_frame.locator("input[title='WBS gültig bis']").fill(WBS_VALID_TILL.strftime("%d.%m.%Y"))
+                await page.wait_for_timeout(1000)
+                wbs_rooms_select = form_frame.locator("ng-select[id*='wbs_max_number_rooms']")
+                await wbs_rooms_select.click()
+                await page.wait_for_timeout(1000)
+                correct_wbs_room_option = form_frame.get_by_role("option", name=str(WBS_ROOMS), exact=True)
+                await correct_wbs_room_option.click()
+                await page.wait_for_timeout(1000)
             await form_frame.locator("ng-select[id*='fuer_wen_ist_wohnungsanfrage']").click()
             await page.wait_for_timeout(1000)
             await form_frame.get_by_role("option", name="Für mich selbst").click()
@@ -118,7 +119,8 @@ if __name__ == "__main__":
     # url = "https://www.degewo.de/immosuche/details/neubau-mit-wbs-140-160-180-220-mit-besonderem-wohnbedarf-1" # already applied
     # url = "https://www.degewo.de/immosuche/details/wohnung-sucht-neuen-mieter-1" # angebot geschlossen
     # url = "https://www.degewo.de/immosuche/details/wohnung-sucht-neuen-mieter-145" # seite nicht gefunden
-    url = "https://www.degewo.de/immosuche/details/1-zimmer-mit-balkon-3"
+    # url = "https://www.degewo.de/immosuche/details/1-zimmer-mit-balkon-3"
+    url = "https://www.degewo.de/immosuche/details/2-zimmer-in-gropiusstadt-4"
     provider = Degewo()
     provider.test_apply(url)
 

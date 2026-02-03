@@ -49,3 +49,7 @@ de = "Diese Seite wurde nicht gefunden."
 [already_applied]
 en = "You already applied for this ad."
 de = "Sie haben sich für diese Anzeige bereits beworben."
+
+[wbs_required]
+en = "You need a WBS for this flat."
+de = "Sie benötigen einen WBS für diese Wohnung."
